@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses_tracker/pages/add_transaction_page.dart';
+import 'package:expenses_tracker/pages/transaction_page.dart';
 import 'package:expenses_tracker/services/transactions_provider.dart';
 import 'package:expenses_tracker/services/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         });
 
         await Provider.of<TransactionProvider>(context, listen: false)
-            .getTransaction()
+            .getTransactions()
             .whenComplete(() {
           setState(() {
             _userTransactions =
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.add),
             onPressed: () => Navigator.of(context)
                 .push(MaterialPageRoute(
-                    builder: (BuildContext context) => AddTransactionPage()))
+                    builder: (BuildContext context) => TransactionPage('')))
                 .then((value) {
               if (value == true) {
                 setState(() {
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                 () async {
                   try {
                     await Provider.of<TransactionProvider>(context, listen: false)
-                        .getTransaction()
+                        .getTransactions()
                         .whenComplete(() {
                       setState(() {
                         _userTransactions =

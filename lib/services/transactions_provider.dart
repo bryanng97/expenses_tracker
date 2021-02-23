@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TransactionProvider with ChangeNotifier {
   final databaseReference = FirebaseFirestore.instance;
   List<Transactions> _trxList = [];
+  List<Transactions> _trxRecord = [];
   String deviceID;
 
   TransactionProvider(this._trxList);
@@ -15,7 +16,11 @@ class TransactionProvider with ChangeNotifier {
     return _trxList;
   }
 
-  Future<void> getTransaction() async {
+  List<Transactions> get trxRecord {
+    return _trxRecord;
+  }
+
+  Future<void> getTransactions() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final extractDetail =
         json.decode(prefs.getString('userData')) as Map<String, Object>;
@@ -45,21 +50,71 @@ class TransactionProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addTransaction(txTitle, txAmt, chosenDate) async {
+  Future<void> addTransaction(txTitle, txAmt, chosenDate, id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final extractDetail =
         json.decode(prefs.getString('userData')) as Map<String, Object>;
     var deviceID = extractDetail['deviceID'];
 
-    var id = DateTime.now().toIso8601String();
+    var txID = id.isEmpty ? DateTime.now().toIso8601String() : id;
     var convertedChosenDate = DateTime.parse(chosenDate).toIso8601String();
 
-    await databaseReference.collection("transaction").doc(id).set({
-      'id': '${id.toString()}',
+    await databaseReference.collection("transaction").doc(txID).set({
+      'id': txID,
       'title': txTitle,
       'amount': double.parse(txAmt),
       'deviceID': '$deviceID',
       'date': convertedChosenDate
-    });
+    }, SetOptions(merge: true));
   }
+
+  Future<void> getTransaction(txID) async {
+    final List<Transactions> trxRecord = [];
+    if (databaseReference.collection("transaction") != null) {
+      await databaseReference
+          .collection("transaction")
+          .doc(txID)
+          .get()
+          .then((snapshot) {
+        trxRecord.add(Transactions(
+            id: snapshot['id'].toString(),
+            title: snapshot['title'],
+            amount: snapshot['amount'],
+            deviceID: snapshot['deviceID'],
+            date: DateTime.parse(snapshot['date'])));
+        _trxRecord = trxRecord;
+      });
+    } else {
+      _trxRecord = [];
+    }
+  }
+
+  // sample calling rest API
+  // Future<void> getTransactions() async {
+  //   try {
+  //     await retry(
+  //       () async {
+  //         final response =
+  //             await http.post('apiURL', body: json.encode({body}), header: {
+  //           'Accept': 'application/json',
+  //           'Content-Type': 'application/json',
+  //         }).timeout(Duration(seconds: 60), onTimeout: () {
+  //           throw TimeoutException;
+  //         }).catchError((err) {
+  //           print(err);
+  //         });
+
+  //         print(response);
+  //       },
+  //       retryIf: (e) =>
+  //           e is SocketException ||
+  //           e is TimeoutException ||
+  //           e is HttpException ||
+  //           e is http.ClientException,
+  //       maxAttempts: 3,
+  //     );
+  //   } catch (err) {
+  //     print(err);
+  //   }
+  // }
 }

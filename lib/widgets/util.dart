@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-Widget appBar(BuildContext context) {
+Widget appBar(BuildContext context, String title) {
   return AppBar(
     title: Text(
-      'Expenses Tracker',
+      '$title',
     ),
   );
 }

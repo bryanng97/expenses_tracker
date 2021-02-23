@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+class AdaptiveFlatButton extends StatelessWidget {
+  final String text;
+  final Function handler;
+
+  AdaptiveFlatButton(this.text, this.handler);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      textColor: Theme.of(context).cardColor,
+      color: Theme.of(context).accentColor,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      onPressed: handler,
+    );
+  }
+}

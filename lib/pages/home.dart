@@ -127,7 +127,6 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             )
           : SingleChildScrollView(
-            //hello
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,

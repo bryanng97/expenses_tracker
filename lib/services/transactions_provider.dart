@@ -10,7 +10,7 @@ class TransactionProvider with ChangeNotifier {
   List<Transactions> _trxRecord = [];
   String deviceID;
 
-  TransactionProvider(this._trxList);
+  TransactionProvider();
 
   List<Transactions> get trx {
     return _trxList;
@@ -40,7 +40,6 @@ class TransactionProvider with ChangeNotifier {
                 title: f['title'],
                 amount: f['amount'],
                 deviceID: f['deviceID'],
-                // date: DateTime.parse(f['date']),
                 date: f['date']));
           }
           _trxList = trxRecord;
@@ -58,7 +57,6 @@ class TransactionProvider with ChangeNotifier {
     var deviceID = extractDetail['deviceID'];
 
     var txID = id.isEmpty ? DateTime.now().toIso8601String() : id;
-    // var convertedChosenDate = DateTime.parse(chosenDate).toIso8601String();
 
     await databaseReference.collection("transaction").doc(txID).set({
       'id': txID,
@@ -82,7 +80,6 @@ class TransactionProvider with ChangeNotifier {
           title: snapshot['title'],
           amount: snapshot['amount'],
           deviceID: snapshot['deviceID'],
-          // date: DateTime.parse(snapshot['date']),
           date: snapshot['date'],
         ));
         _trxRecord = trxRecord;

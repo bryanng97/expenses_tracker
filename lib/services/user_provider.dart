@@ -13,7 +13,7 @@ class UserProvider with ChangeNotifier {
   List<Users> _userList;
   final databaseReference = FirebaseFirestore.instance;
 
-  UserProvider(this._userList);
+  UserProvider();
 
   List<Users> get userList {
     return _userList;

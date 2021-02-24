@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses_tracker/pages/home.dart';
-import 'package:expenses_tracker/pages/transaction_page.dart';
 import 'package:flutter/material.dart';
+import '../pages/home.dart';
+import '../pages/transaction_page.dart';
 import '../models/transactions.dart';
-
-import 'package:intl/intl.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({

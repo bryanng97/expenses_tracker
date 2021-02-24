@@ -20,10 +20,6 @@ class TransactionProvider with ChangeNotifier {
     return _trxRecord;
   }
 
-  Transactions findById(String id) {
-    return _trxList.firstWhere((element) => element.id == id);
-  }
-
   Future<void> getTransactions() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final extractDetail =

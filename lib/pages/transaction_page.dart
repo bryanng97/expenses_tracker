@@ -214,7 +214,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         ),
                       ),
                       RaisedButton(
-                        child: Text('Add'),
+                        child: Text('Save'),
                         onPressed: _submitData,
                         textColor: Theme.of(context).cardColor,
                         color: Theme.of(context).accentColor,

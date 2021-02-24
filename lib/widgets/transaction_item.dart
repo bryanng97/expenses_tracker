@@ -54,10 +54,9 @@ class _TransactionItemState extends State<TransactionItem> {
               )
             ],
           ),
-          subtitle: Text(DateFormat("MMM dd, yyyy  HH:mm")
-              .format(widget.transaction.date)),
+          subtitle: Text(widget.transaction.date),
           trailing: IconButton(
-            icon: Icon(Icons.delete_forever),
+            icon: Icon(Icons.delete_forever, size: 30,),
             color: Theme.of(context).errorColor,
             onPressed: () {
               return showDialog(

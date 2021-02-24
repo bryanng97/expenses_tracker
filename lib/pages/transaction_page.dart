@@ -3,7 +3,6 @@ import 'package:expenses_tracker/services/transactions_provider.dart';
 import 'package:expenses_tracker/widgets/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TransactionPage extends StatefulWidget {
@@ -52,8 +51,7 @@ class _TransactionPageState extends State<TransactionPage> {
                       .trxRecord;
 
               if (_userTransaction[0].date != null) {
-                _selectedDateController.text = DateFormat("yyyy-MM-dd HH:mm")
-                    .format(_userTransaction[0].date);
+                _selectedDateController.text = _userTransaction[0].date;
               }
             });
           }).catchError((err) {
@@ -117,7 +115,7 @@ class _TransactionPageState extends State<TransactionPage> {
       ).then((time) {
         setState(() {
           _selectedDateController.text =
-              "${DateFormat("yyyy-MM-dd").format(pickedDate)} ${time.hour}:${time.minute}";
+              "${pickedDate.year}-${pickedDate.month}-${pickedDate.day} ${time.hour.toString().padLeft(2, "0")}:${time.minute.toString().padLeft(2, "0")}";
         });
       });
     });
@@ -131,7 +129,8 @@ class _TransactionPageState extends State<TransactionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context, widget.id.isNotEmpty ? "Edit Expenses" : "Add Expenses"),
+      appBar: appBar(
+          context, widget.id.isNotEmpty ? "Edit Expenses" : "Add Expenses"),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -169,7 +168,7 @@ class _TransactionPageState extends State<TransactionPage> {
                       TextFormField(
                         initialValue: widget.id.isNotEmpty &&
                                 _userTransaction[0].amount != null
-                            ? _userTransaction[0].amount.toString()
+                            ? _userTransaction[0].amount.toStringAsFixed(2)
                             : '',
                         decoration: InputDecoration(
                           prefixText: 'RM ',
@@ -195,11 +194,6 @@ class _TransactionPageState extends State<TransactionPage> {
                         child: IgnorePointer(
                           child: TextFormField(
                             controller: _selectedDateController,
-                            // initialValue: widget.id.isNotEmpty &&
-                            //         _userTransaction[0].date != null
-                            //     ? DateFormat("yyyy-mm-dd HH:mm")
-                            //         .format(_userTransaction[0].date)
-                            //     : '',
                             decoration: InputDecoration(
                               labelText: 'Date',
                               errorText: _validate ? '' : null,

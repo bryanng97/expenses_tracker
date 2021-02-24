@@ -5,7 +5,7 @@ class Transactions {
   final String title;
   final double amount;
   final String deviceID;
-  final DateTime date;
+  final String date;
 
   Transactions({
     @required this.id, 

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class Transactions {
+class Transactions with ChangeNotifier {
   final String id;
   final String title;
   final double amount;

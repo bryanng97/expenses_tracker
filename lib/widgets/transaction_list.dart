@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import './transaction_item.dart';
 import '../models/transactions.dart';
 
@@ -36,13 +37,14 @@ class TransactionList extends StatelessWidget {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: transactions.length,
-            itemBuilder: (ctx, index) {
-              return TransactionItem(
+            itemBuilder: (ctx, index) => ChangeNotifierProvider(
+              create: (c) => transactions[index],
+              child: TransactionItem(
                 key: ValueKey(transactions[index].id),
                 transaction: transactions[index],
                 deleteTx: deleteTx,
-              );
-            },
+              ),
+            ),
           );
   }
 }

@@ -43,6 +43,7 @@ class TransactionProvider with ChangeNotifier {
                 date: f['date']));
           }
           _trxList = trxRecord;
+          notifyListeners();
         });
       });
     } else {
@@ -69,24 +70,21 @@ class TransactionProvider with ChangeNotifier {
 
   Future<void> getTransaction(txID) async {
     final List<Transactions> trxRecord = [];
-    if (databaseReference.collection("transaction") != null) {
-      await databaseReference
-          .collection("transaction")
-          .doc(txID)
-          .get()
-          .then((snapshot) {
-        trxRecord.add(Transactions(
-          id: snapshot['id'].toString(),
-          title: snapshot['title'],
-          amount: snapshot['amount'],
-          deviceID: snapshot['deviceID'],
-          date: snapshot['date'],
-        ));
-        _trxRecord = trxRecord;
-      });
-    } else {
-      _trxRecord = [];
-    }
+    await databaseReference
+        .collection("transaction")
+        .doc(txID)
+        .get()
+        .then((snapshot) {
+      trxRecord.add(Transactions(
+        id: snapshot['id'].toString(),
+        title: snapshot['title'],
+        amount: snapshot['amount'],
+        deviceID: snapshot['deviceID'],
+        date: snapshot['date'],
+      ));
+      _trxRecord = trxRecord;
+      notifyListeners();
+    });
   }
 
   // sample calling rest API

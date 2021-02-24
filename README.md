@@ -1,8 +1,8 @@
 # expenses_tracker
 
 ## Installation
-Build apk               : flutter build apk <br>
-Install APK to phone    : flutter run
+Install APK to phone    : flutter run <br>
+Build apk               : flutter build apk
 
 ## Usage
 ### Add new expenses
